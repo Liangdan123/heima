@@ -11,6 +11,7 @@ class Storage {
   }
 
   set(key, value) {
+    //字符串不走这里，所以localStorage里面可以存字符串
     if (typeof value === 'object' && value != null) {
       value = JSON.stringify(value)
     }
