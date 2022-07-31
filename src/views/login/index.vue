@@ -91,7 +91,7 @@ export default {
         } = await login(this.mobile, this.code)
         this.$toast.success('登录成功')
         this.$store.commit('SET_TOKEN', data)
-        this.$router.push('/profile')
+        this.$router.push('/my')
       } catch (error) {
         // this.$toast.fail("加载失败")
         console.dir(error)
