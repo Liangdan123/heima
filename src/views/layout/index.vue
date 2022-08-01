@@ -9,7 +9,7 @@
       >
         <template #icon>
           <span :class="`toutiao ${item.icon}`"></span>
-          <span>{{ item.text }}</span>
+          <span class="icon_text">{{ item.text }}</span>
         </template>
       </van-tabbar-item>
     </van-tabbar>
@@ -57,6 +57,9 @@ export default {
   height: 100%;
 
   .toutiao {
+    font-size: 30px;
+  }
+  .icon_text {
     font-size: 30px;
   }
 }

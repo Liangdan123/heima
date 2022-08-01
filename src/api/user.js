@@ -9,7 +9,7 @@ import request from '@/untils/request'
  * @param {String} code
  * @returns
  */
-
+//登录
 export const login = (mobile, code) => {
   return request({
     url: '/v1_0/authorizations',
@@ -17,7 +17,7 @@ export const login = (mobile, code) => {
     data: { mobile, code }
   })
 }
-
+//发送验证码
 export const getCodeAPI = (mobile) => {
   return request({
     url: `/v1_0/sms/codes/${mobile}`
