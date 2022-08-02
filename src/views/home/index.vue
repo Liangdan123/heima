@@ -11,6 +11,7 @@
         <!-- 内容 1 -->
         <article-list :id="item.id"></article-list>
       </van-tab>
+
       <span class="toutiao toutiao-gengduo1"></span>
     </van-tabs>
   </div>
@@ -48,6 +49,9 @@ export default {
 <style scoped lang="less">
 .navbar {
   background-color: #3296fa;
+  position: sticky;
+  left: 0;
+  top: 0;
   :deep(.van-nav-bar__title) {
     max-width: unset; //不设置
   }
@@ -64,14 +68,18 @@ export default {
     border: 0.02667rem solid #5babfb;
   }
 }
-:deep(.van-tab__pane) {
-  //使用calc需要加空格
-  min-height: calc(100vh - 92px - 88px - 100px);
-}
+// :deep(.van-tab__pane) {
+//   //使用calc需要加空格
+//   min-height: calc(100vh - 92px - 88px - 100px);
+// }
 /* tabs导航条样式 */
 :deep(.van-tabs__wrap) {
   padding-right: 66px;
-
+  position: sticky;
+  top: 92px;
+  left: 0;
+  z-index: 99;
+  background: #fff;
   .van-tabs__nav {
     padding-left: 0;
     padding-right: 0;
@@ -105,6 +113,10 @@ export default {
   opacity: 0.6;
   border-bottom: 1px solid #eee;
 
+  position: fixed;
+  top: 92px;
+  right: 0;
+  z-index: 999;
   &::after {
     content: '';
     position: absolute;
@@ -115,5 +127,10 @@ export default {
     width: 1px;
     background-image: url('~@/assets/images/gradient-gray-line.png');
   }
+}
+:deep(.van-tabs__content) {
+  max-height: calc(100vh - 92px - 88px - 100px);
+  padding-bottom: 100px;
+  overflow: auto;
 }
 </style>
