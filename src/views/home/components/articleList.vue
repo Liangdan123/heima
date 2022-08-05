@@ -47,7 +47,7 @@ export default {
       pre_timestamp: '',
       finished: false,
       error: false,
-      refreshingLoading: false
+      refreshingLoading: false//是否处于加载中状态
     }
   },
   created() {
@@ -67,6 +67,7 @@ export default {
     //加载下一页
     async loadNextPageArticle() {
       try {
+        //通过上一个时间戳pre_timestamp获取下一页
         const { data } = await getArticleAPI(this.id, this.pre_timestamp)
         const timestamp = data.data.pre_timestamp
         const results = data.data.results
