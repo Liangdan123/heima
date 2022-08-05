@@ -11,6 +11,7 @@
         class="search"
         @search="onSearch"
         @focus="onSearchFocus"
+        @cancel="$router.back()"
       />
     </form>
     <!-- 搜素历史，搜素结果，搜素建议 -->
