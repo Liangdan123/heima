@@ -49,10 +49,15 @@ export default {
   },
   computed: {
     //map是映射关系
+    //关键词高亮
     higthLigthSuggestion() {
-      const reg = new RegExp(this.keyword, 'ig')
-      return this.suggestion.map((item) =>
-        item.replace(reg, (match) => `<span style="color:red;">${match}</span>`)
+      const reg = new RegExp(this.keyword, 'ig') //这里是动态正则，用双斜号是静态的(匹配的是内容)
+      return this.suggestion.map(
+        (item) =>
+          item.replace(
+            reg,
+            (match) => `<span style="color:red;">${match}</span>`
+          ) //match匹配的子串
       )
     }
   },
@@ -79,7 +84,8 @@ export default {
       try {
         const { data } = await getSearchSuggestionAPI(this.keyword)
         // this.suggestion = data.data.options
-        this.suggestion = data.data.options.filter((str) => Boolean(str))
+        this.suggestion = data.data.options.filter((str) => Boolean(str)) //这里需要过滤是因为接口返回数据可能是null
+        //this.suggestion为null的话，后续处理它会报错(this.suggestion.map会出错)
         // this.suggestion = data.data.options.filter(Boolean)//没有参数就自动往里添加参数
       } catch (error) {
         this.$toast.fail('获取建议失败')
