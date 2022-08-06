@@ -31,6 +31,7 @@
         @updata-avtor="userInfo.photo = $event"
       ></updata-avator>
     </van-popup>
+    <!-- 昵称 -->
   </div>
 </template>
 
