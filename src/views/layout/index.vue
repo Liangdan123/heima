@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="layout">
     <router-view></router-view>
     <van-tabbar route>
       <van-tabbar-item

@@ -45,3 +45,11 @@ export const uploadAvator = (file) => {
     data: fm
   })
 }
+//编辑用户个人资料
+export const userProfile = (data) => {
+  return request({
+    url: '/v1_0/user/profile',
+    method: 'PATCH',
+    data
+  })
+}
