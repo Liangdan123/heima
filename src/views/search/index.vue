@@ -25,6 +25,7 @@ import searchHistory from './components/searchHistory'
 import searchResult from './components/searchResult'
 import searchSuggestion from './components/searchSuggestion'
 export default {
+  name: 'search',
   data() {
     return {
       keyword: '',
@@ -41,8 +42,8 @@ export default {
       //如果输入的是空字符串就显示搜素历史
       if (this.keyword.trim() === '') {
         return 'searchHistory'
-        //渲染搜所结果
       }
+      //渲染搜所结果
       if (this.isShowSearchResult) {
         return 'searchResult'
       }
@@ -53,7 +54,6 @@ export default {
   },
   methods: {
     onSearch() {
-      console.log('搜索')
       this.isShowSearchResult = true
     },
     onSearchFocus() {

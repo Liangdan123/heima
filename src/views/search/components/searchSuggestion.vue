@@ -4,6 +4,7 @@
       v-for="(item, index) in higthLigthSuggestion"
       :key="index"
       icon="search"
+      @click="searchSuggestion(index)"
     >
       <!-- 使用插槽识别结构 -->
       <template #title>
@@ -90,7 +91,12 @@ export default {
       } catch (error) {
         this.$toast.fail('获取建议失败')
       }
-    }, 300)
+    }, 300),
+
+    searchSuggestion(index) {
+      this.$parent.keyword = this.suggestion[index]
+      this.$parent.isShowSearchResult = true
+    }
   }
 }
 </script>
