@@ -19,6 +19,7 @@
           v-for="item in articles"
           :key="item.art_id"
           :articleInfo="item"
+          @click.native="toPage(item)"
         >
         </article-item>
       </van-list>
@@ -47,7 +48,7 @@ export default {
       pre_timestamp: '',
       finished: false,
       error: false,
-      refreshingLoading: false//是否处于加载中状态
+      refreshingLoading: false //是否处于加载中状态
     }
   },
   created() {
@@ -92,6 +93,14 @@ export default {
         this.loading = false
         this.refreshingLoading = false
       }
+    },
+    toPage(item) {
+      this.$router.push({
+        name: 'searchDetail',
+        params: {
+          id: item.art_id
+        }
+      })
     }
   }
 }
