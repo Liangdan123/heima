@@ -58,12 +58,17 @@ export default {
   methods: {
     async followUser() {
       this.btn_loading = true
+      let follow = false
       if (this.detailData.is_followed) {
+        //取消关注
         await deleteUserFollow(this.detailData.aut_id)
+        follow = false
       } else {
+        //添加关注
         const res = await userFollowings(this.detailData.aut_id)
+        follow = true
       }
-      this.$emit('follow')
+      this.$emit('follow', follow)
       this.btn_loading = false
     }
   }
