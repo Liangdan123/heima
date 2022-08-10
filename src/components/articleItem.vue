@@ -29,7 +29,7 @@
           :src="item"
         />
       </div>
-      <span>{{ label }}</span>
+      <span>{{ label }}{{ articleInfo.pubdate | relativeTime }}</span>
     </template>
   </van-cell>
 </template>
@@ -45,7 +45,7 @@ export default {
   },
   computed: {
     label() {
-      return `${this.articleInfo.aut_name} ${this.articleInfo.comm_count}评论 ${this.articleInfo.pubdate}`
+      return `${this.articleInfo.aut_name} ${this.articleInfo.comm_count}评论`
     }
   }
 }

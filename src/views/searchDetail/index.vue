@@ -4,9 +4,21 @@
 
     <!-- 文章内容 -->
     <article-detail :detailData="detailData" @follow="follow"></article-detail>
+    <!-- 回复弹框 -->
+    <van-popup
+      v-model="$store.state.commentList"
+      position="bottom"
+      closeable
+      :style="{ height: '100%' }"
+    >
+      <popComment @replayComment="replayComment"></popComment>
+    </van-popup>
+
+    <!-- 文章评论 -->
+    <comment></comment>
 
     <!-- 文章底部 -->
-    <!-- <van-popup v-model="show" position="bottom" :style="{ height: '20%' }">
+    <van-popup v-model="show" position="bottom" :style="{ height: '20%' }">
       <van-field
         v-model="message"
         rows="2"
@@ -15,11 +27,17 @@
         maxlength="50"
         placeholder="请输入留言"
         show-word-limit
-      />
-    </van-popup> -->
+      >
+        <template #extra>
+          <div class="extra_txt" @click="pushArtcle">发布</div>
+        </template>
+      </van-field>
+    </van-popup>
     <van-tabbar v-model="active">
       <van-tabbar-item class="write-comment">
-        <van-button type="default" size="mini">写评论</van-button>
+        <van-button type="default" size="mini" @click="show = true"
+          >写评论</van-button
+        >
       </van-tabbar-item>
       <van-tabbar-item icon="comment-o" badge="0"></van-tabbar-item>
       <van-tabbar-item
@@ -41,7 +59,9 @@
 
 <script>
 import navBar from '@/components/navBar'
-import articleDetail from './components/articleDetail.vue'
+import articleDetail from './components/articleDetail'
+import comment from '@/components/comment'
+import popComment from './components/popComment'
 import {
   searchDetail,
   articleCollectionsDel,
@@ -52,12 +72,12 @@ import {
 export default {
   name: 'searchDetail',
   props: ['id'],
-  components: { navBar, articleDetail },
+  components: { navBar, articleDetail, comment, popComment },
   data() {
     return {
       active: 1,
       detailData: {},
-      show: true,
+      show: false,
       message: ''
     }
   },
@@ -65,12 +85,20 @@ export default {
     this.getSearchDetail()
   },
   methods: {
+    replayComment() {
+      this.show = true
+    },
+    pushArtcle() {
+      this.$bus.$emit('pushAticle', this.message)
+      this.message = ''
+      this.show = false
+    },
     async getSearchDetail() {
       const { data } = await searchDetail(this.id)
       this.detailData = data.data
     },
+    //关注与取消关注
     follow(val) {
-      this.getSearchDetail()
       this.detailData.is_followed = val
     },
     //文章收藏,取消文章收藏
@@ -86,11 +114,9 @@ export default {
     //对文章点赞，获取取消文章点赞
     async support() {
       if (this.detailData.attitude == -1 || this.detailData.attitude == 0) {
-        console.log(77777)
         await articleLikings({ target: this.detailData.art_id })
         this.detailData.attitude = 1
       } else {
-        console.log(8888888)
         await articleLikingsDele(this.detailData.art_id)
         this.detailData.attitude = 0
       }
@@ -108,8 +134,15 @@ export default {
     }
   }
 }
+:deep(.van-field__word-limit) {
+  line-height: 150px;
+}
 :deep(.van-cell__value) {
   background-color: #f5f7f9;
   height: 200px;
+}
+:deep(.extra_txt) {
+  line-height: 250px;
+  color: #6ba3d8;
 }
 </style>

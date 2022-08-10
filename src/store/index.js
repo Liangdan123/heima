@@ -15,7 +15,10 @@ export default new Vuex.Store({
   state: {
     // tokenObj:JSON.parse(localStorage.getItem("HEIMA_TOUTIAO_TOKEN"))||{}
     // tokenObj:storage.get("HEIMA_TOUTIAO_TOKEN")||{}
-    tokenObj: getToken() || {}
+    tokenObj: getToken() || {},
+    commentList: false, //评论二级弹框显示不显示
+    replayData: {}
+    // target: '' //回复中的评论id
   },
 
   mutations: {
@@ -26,6 +29,15 @@ export default new Vuex.Store({
       // storage.set("HEIMA_TOUTIAO_TOKEN",payload)
       //本地存储
       setToken(payload)
+    },
+    SET_COMMENT_LIST(state, isShow) {
+      state.commentList = isShow
+    },
+    SET_REPLAT_DATA(state, commentItem) {
+      state.replayData = commentItem
     }
+    // SET_COM_ID(state, target) {
+    //   state.target = target
+    // }
   }
 })

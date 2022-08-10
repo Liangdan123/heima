@@ -26,16 +26,22 @@
       </template>
     </van-cell>
 
-    <div v-html="detailData.content" class="markdown-body text_content"></div>
+    <div
+      v-html="detailData.content"
+      class="markdown-body text_content"
+      ref="article-contend"
+    ></div>
     <div class="end">正文结束</div>
     <div class="more">没有更多</div>
   </div>
 </template>
 
 <script>
-import { userFollowings, deleteUserFollow } from '@/api'
+import { userFollowings, deleteUserFollow, commentsList } from '@/api'
+import { ImagePreview } from 'vant'
 import dayjs from 'dayjs'
 export default {
+  name: 'articleDetail',
   props: {
     detailData: {
       type: Object,
@@ -50,12 +56,40 @@ export default {
       btn_loading: false
     }
   },
+  created() {},
   filters: {
     timeFormat(val) {
       return dayjs(dayjs(val)).from().replace('years ago', '年前')
     }
   },
+  watch: {
+    detailData: {
+      deep: true,
+      handler() {
+        // 本轮视图更新以后的下一次你想干啥
+        // 获取文章以后更新视图
+        this.$nextTick(() => {
+          this.getPicHug()
+        })
+      }
+    }
+  },
+
   methods: {
+    getPicHug() {
+      const imgContend = this.$refs['article-contend']
+      const allImg = imgContend.querySelectorAll('img')
+      const images = []
+      allImg.forEach((item, index) => {
+        images.push(item.src)
+        item.onclick = function () {
+          ImagePreview({
+            images,
+            startPosition: index
+          })
+        }
+      })
+    },
     async followUser() {
       this.btn_loading = true
       let follow = false
@@ -115,7 +149,7 @@ export default {
     text-align: center;
     color: #969799;
     margin-top: 20px;
-    margin-bottom: 200px;
+    margin-bottom: 140px;
   }
 }
 </style>

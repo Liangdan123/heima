@@ -53,3 +53,26 @@ export const articleLikingsDele = (target) => {
     method: 'DELETE'
   })
 }
+//获取评论或评论回复
+export const commentsList = (params) => {
+  return request({
+    url: '/v1_0/comments',
+    params
+  })
+}
+//对文章或者评论进行评论
+export const commentsPost = (data) => {
+  return request({
+    url: '/v1_0/comments',
+    method: 'POST',
+    data
+  })
+}
+//对文章或者评论进行评论
+export const commentsPulisher = (data) => {
+  return request({
+    url: '/v1_0/comments',
+    method: 'POST',
+    data
+  })
+}
