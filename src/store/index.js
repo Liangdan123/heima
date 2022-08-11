@@ -17,7 +17,8 @@ export default new Vuex.Store({
     // tokenObj:storage.get("HEIMA_TOUTIAO_TOKEN")||{}
     tokenObj: getToken() || {},
     commentList: false, //评论二级弹框显示不显示
-    replayData: {}
+    replayData: {},
+    total_num: ''
     // target: '' //回复中的评论id
   },
 
@@ -35,6 +36,13 @@ export default new Vuex.Store({
     },
     SET_REPLAT_DATA(state, commentItem) {
       state.replayData = commentItem
+    },
+    SET_TOTAL_NUM(state, num) {
+      state.total_num = num
+    },
+    //回复评论数据+1
+    ADD_REPLAY_COUNT(state, count) {
+      state.replayData.reply_count += count
     }
     // SET_COM_ID(state, target) {
     //   state.target = target

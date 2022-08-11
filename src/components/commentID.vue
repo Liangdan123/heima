@@ -6,8 +6,8 @@
         <p>{{ item.aut_name }}</p>
         <p>{{ item.content }}</p>
         <p>
-          <span>{{ item.pubdate | relativeTime }}</span
-          ><span class="huifu" @click="reply(item)"
+          <span>{{ item.pubdate | relativeTime }}</span>
+          <span class="huifu" @click="reply(item)"
             >回复{{ item.reply_count }}</span
           >
         </p>
@@ -36,13 +36,11 @@ export default {
   },
   methods: {
     reply(item) {
-      //   this.$emit('changeFlag')
-      console.log(this.isReplay)
       if (this.isReplay) {
         //一级弹框中的回复
         this.$store.commit('SET_COMMENT_LIST', true)
         this.$store.commit('SET_REPLAT_DATA', item)
-        console.log(8888)
+        console.log(9999999999)
       }
     }
   }

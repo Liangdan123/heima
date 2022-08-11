@@ -4,7 +4,6 @@
       v-model="loading"
       :finished="finished"
       finished-text="没有更多了"
-      :immediate-check="false"
       offset="0"
       @load="onLoad"
     >
@@ -50,67 +49,73 @@ export default {
   },
   components: { commentID },
   mounted() {
-    this.$bus.$on('pushAticle', async (data) => {
-      this.$toast.loading({
-        message: '正在加载中...',
-        forbidClick: true
-      })
-      // const res = await commentsPulisher({
-      //   target: this.$route.params.id,
-      //   content: data
-      // })
-      var res
-      if (this.isArt) {
-        res = await commentsPulisher({
-          target: this.$route.params.id,
-          content: data
+    this.$bus.$on(
+      this.isArt ? 'pushAticle' : 'publishComment',
+      async (data) => {
+        this.$toast.loading({
+          message: '正在加载中...',
+          forbidClick: true
         })
-      } else {
-        res = await commentsPulisher({
-          target: this.$store.state.replayData.com_id,
-          content: data,
-          art_id: this.$route.params.id
-        })
-      }
-      const result = res.data.data
-      const commentItem = [
-        {
-          aut_id: result.new_obj.aut_id,
-          aut_name: result.new_obj.aut_name,
-          aut_photo: result.new_obj.aut_photo,
-          com_id: result.com_id,
-          content: result.new_obj.content,
-          is_followed: null,
-          is_liking: result.new_obj.is_liking,
-          like_count: result.new_obj.like_count,
-          pubdate: result.new_obj.pubdate,
-          reply_count: result.new_obj.reply_count
+        // const res = await commentsPulisher({
+        //   target: this.$route.params.id,
+        //   content: data
+        // })
+        let res
+        if (this.isArt) {
+          console.log('ooooooooooo')
+          res = await commentsPulisher({
+            target: this.$route.params.id,
+            content: data
+          })
+        } else {
+          console.log('pppppppppp')
+          res = await commentsPulisher({
+            target: this.$store.state.replayData.com_id,
+            content: data,
+            art_id: this.$route.params.id
+          })
+          this.$store.commit('ADD_REPLAY_COUNT', 1)
         }
-      ]
-      this.commentsList.unshift(...commentItem)
-      this.$toast.success('评论成功')
-    })
+        const result = res.data.data
+        const commentItem = [
+          {
+            aut_id: result.new_obj.aut_id,
+            aut_name: result.new_obj.aut_name,
+            aut_photo: result.new_obj.aut_photo,
+            com_id: result.com_id,
+            content: result.new_obj.content,
+            is_followed: null,
+            is_liking: result.new_obj.is_liking,
+            like_count: result.new_obj.like_count,
+            pubdate: result.new_obj.pubdate,
+            reply_count: result.new_obj.reply_count
+          }
+        ]
+        this.commentsList.unshift(...commentItem)
+        // this.$store.commit('SET_TOTAL_NUM', this.commentsList.length)
+        this.$toast.success('评论成功')
+      }
+    )
   },
   beforeDestroy() {
-    this.$bus.$off('pushAticle')
+    // this.$bus.$off('pushAticle')
+    this.$bus.$off('publishComment')
   },
   created() {
     if (this.isArt) {
       //对文章的评论
-      // this.$set(this.artInfo, 'source', this.$route.params.id)
       this.artInfo = Object.assign(this.artInfo, {
         source: this.$route.params.id,
         type: 'a'
       })
     } else {
       //对评论的回复
-      console.log(7777, this.$store.state.replayData)
       this.artInfo = Object.assign(this.artInfo, {
         source: this.$store.state.replayData.com_id,
         type: 'c'
       })
     }
-    this.getCommentsList(this.artInfo)
+    // this.getCommentsList(this.artInfo)
   },
   filters: {
     timeFormat(val) {
@@ -119,9 +124,8 @@ export default {
   },
   methods: {
     async getCommentsList(params) {
-      console.log(params)
       const { data } = await commentsList(params)
-      console.log(999, data)
+      this.$store.commit('SET_TOTAL_NUM', data.data.total_count)
       this.artCommentAll = data.data
       this.commentsList = data.data.results
     },
@@ -133,7 +137,6 @@ export default {
         //为null就表示加载完成
         this.finished = true
       }
-      console.log(111, data.data.results)
       this.commentsList.push(...data.data.results)
       this.loading = false
     }

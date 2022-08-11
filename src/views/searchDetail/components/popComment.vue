@@ -9,14 +9,17 @@
         }}
       </template>
     </van-nav-bar>
+
     <div class="replayOnly">
       <comment-ID
         :item="$store.state.replayData"
         :isReplay="false"
       ></comment-ID>
     </div>
+
     <!-- $store.state.commentList重走生命周期 -->
     <comment :isArt="false" v-if="$store.state.commentList"></comment>
+
     <van-tabbar>
       <van-button type="warning" @click="replayComment">评论</van-button>
     </van-tabbar>
@@ -27,11 +30,13 @@
 import commentID from '@/components/commentID'
 import comment from '@/components/comment'
 export default {
+  name: 'PopComment',
   data() {
     return {
-      // flag: true
+      // flag: true,
     }
   },
+  computed: {},
   components: { commentID, comment },
   methods: {
     replayComment() {

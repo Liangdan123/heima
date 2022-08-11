@@ -15,7 +15,7 @@
     </van-popup>
 
     <!-- 文章评论 -->
-    <comment></comment>
+    <comment v-if="detailData.art_id"></comment>
 
     <!-- 文章底部 -->
     <van-popup v-model="show" position="bottom" :style="{ height: '20%' }">
@@ -33,17 +33,21 @@
         </template>
       </van-field>
     </van-popup>
+
     <van-tabbar v-model="active">
       <van-tabbar-item class="write-comment">
         <van-button type="default" size="mini" @click="show = true"
           >写评论</van-button
         >
       </van-tabbar-item>
+
       <van-tabbar-item icon="comment-o" badge="0"></van-tabbar-item>
+
       <van-tabbar-item
         :icon="detailData.is_collected ? 'star' : 'star-o'"
         @click="collectionGood"
       ></van-tabbar-item>
+
       <van-tabbar-item
         :icon="
           detailData.attitude == -1 || detailData.attitude == 0
@@ -89,7 +93,13 @@ export default {
       this.show = true
     },
     pushArtcle() {
-      this.$bus.$emit('pushAticle', this.message)
+      //如果为评论文章的发布就为pushAticle，如果是评论回复的就为publishComment
+      const name = this.$store.state.commentList
+        ? 'publishComment'
+        : 'pushAticle'
+      console.log('name', name)
+      // this.$bus.$emit('pushAticle', this.message)
+      this.$bus.$emit(name, this.message)
       this.message = ''
       this.show = false
     },
