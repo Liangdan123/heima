@@ -54,10 +54,14 @@ export default {
   },
   methods: {
     onSearch() {
+      //按下回车键
+      console.log(11111)
       //确定搜索时触发
       this.isShowSearchResult = true
     },
     onSearchFocus() {
+      //没按下回车键，但是输入内容的时候
+      console.log(22222222)
       //输入框获得焦点时触发
       //如果keyword为"“显示搜索历史
       //如果keyword有值显示搜索建议
