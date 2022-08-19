@@ -54,9 +54,11 @@ export default {
   },
   methods: {
     onSearch() {
+      //确定搜索时触发
       this.isShowSearchResult = true
     },
     onSearchFocus() {
+      //输入框获得焦点时触发
       //如果keyword为"“显示搜索历史
       //如果keyword有值显示搜索建议
       this.isShowSearchResult = false //把搜索结果排除在外
