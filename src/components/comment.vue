@@ -62,13 +62,11 @@ export default {
         // })
         let res
         if (this.isArt) {
-          console.log('ooooooooooo')
           res = await commentsPulisher({
             target: this.$route.params.id,
             content: data
           })
         } else {
-          console.log('pppppppppp')
           res = await commentsPulisher({
             target: this.$store.state.replayData.com_id,
             content: data,

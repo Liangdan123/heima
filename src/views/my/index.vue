@@ -33,7 +33,7 @@
         </div>
       </div>
       <!-- .........未登录......... -->
-      <div class="loginOut" v-else>
+      <div class="loginOut" v-else @click="$router.push('/login')">
         <van-image
           width="80px"
           height="80px"
