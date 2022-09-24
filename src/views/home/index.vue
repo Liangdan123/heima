@@ -66,6 +66,7 @@ export default {
   created() {
     // this.getMyChannel()
     this.initMyChannel()
+    console.log(777777)
   },
   methods: {
     initMyChannel() {
